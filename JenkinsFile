@@ -36,7 +36,10 @@ pipeline{
         stage('build docker image'){
                     steps{
                         sh """
-                         docker build -t hello-piper:${env.GIT_COMMIT} .
+                         docker build -t hello-world:${env.GIT_COMMIT} .
+                         docker login -u ssrawat -p T^3-H%+myPLbrSr
+                         docker tag hello-world:${env.GIT_COMMIT} ssrawat/hello-world:v2.0
+                         docker push ssrawat/hello-world:v2.0
                         """
                     }
         }

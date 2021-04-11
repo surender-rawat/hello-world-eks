@@ -47,7 +47,7 @@ pipeline{
         stage('Deploy application to EKS'){
             steps{
                     sh """
-                       helm install hello-world ./hello-world
+                       helm install hello-world ./hello-world -n staging
                     """
             }
         }

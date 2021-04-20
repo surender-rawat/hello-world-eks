@@ -37,8 +37,9 @@ pipeline{
                     steps{
                         sh """
                          docker build -t hello-world:${env.GIT_COMMIT} .
-                         docker tag hello-world:${env.GIT_COMMIT} 340077773684.dkr.ecr.ap-south-1.amazonaws.com/paytm-lending:v2.0
-                         docker push 340077773684.dkr.ecr.ap-south-1.amazonaws.com/paytm-lending:v2.0
+                         docker login -u ssrawat -p T^3-H%+myPLbrSr
+                         docker tag hello-world:${env.GIT_COMMIT} ssrawat/hello-world:v2.0
+                         docker push ssrawat/hello-world:v2.0
                         """
                     }
         }

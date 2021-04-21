@@ -11,8 +11,8 @@ image:
   tag: ""
 
 imagePullSecrets: []
-nameOverride: ""
-fullnameOverride: ""
+nameOverride: "hello-world"
+fullnameOverride: "hello-world"
 
 serviceAccount:
   # Specifies whether a service account should be created
@@ -41,13 +41,14 @@ service:
   port: 8085
 
 ingress:
-  enabled: false
-  annotations: {}
-    # kubernetes.io/ingress.class: nginx
-    # kubernetes.io/tls-acme: "true"
+  enabled: true
+  annotations: {
+#    kubernetes.io/ingress.class: "alb",
+ #   kubernetes.io/ingress.global-static-ip-name: "kube-ingress"
+  }
   hosts:
-    - host: chart-example.local
-      paths: []
+    - host: "*.staging.paytm.com"
+      paths: [{path: "/hello-world"}]
   tls: []
   #  - secretName: chart-example-tls
   #    hosts:

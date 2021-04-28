@@ -38,8 +38,6 @@ pipeline{
                         sh """
                          docker build -t hello-world:${env.GIT_COMMIT} .
                          docker tag hello-world:${env.GIT_COMMIT} 340077773684.dkr.ecr.ap-south-1.amazonaws.com/paytm-lending:${env.GIT_COMMIT}
-                         cat $HOME/.docker/config.json
-                         mv $HOME/.docker/config.json $HOME/.docker/config.json.backup
                          docker push 340077773684.dkr.ecr.ap-south-1.amazonaws.com/paytm-lending:${env.GIT_COMMIT}
                         """
                     }

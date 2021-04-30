@@ -1,8 +1,8 @@
 pipeline{
 
     environment {
-            registry = "ssrawat/hello-world-repo"
-            registryCredential = 'ssrawat_dockerhub'
+            registry = "340077773684.dkr.ecr.ap-south-1.amazonaws.com/paytm-lending"
+            registryCredential = 'jenkins-eks-lending-user'
             dockerImage = ''
         }
 
@@ -34,7 +34,27 @@ pipeline{
             }
         }
         
-        stage('build docker image'){
+       
+    stage('Building image') {
+      steps{
+        script {
+          dockerImage = docker.build registry + ":${env.GIT_COMMIT}"
+        }
+      }
+    }
+    stage('Deploy image') {
+        steps{
+            script{
+                docker.withRegistry("https://" + registry, "ecr:ap-south-1:" + registryCredential) {
+                    dockerImage.push()
+                }
+            }
+        }
+    }
+  
+        
+        
+       /* stage('build docker image'){
                     steps{
                         script{
                          docker.withRegistry('https://340077773684.dkr.ecr.ap-south-1.amazonaws.com', 'ecr:ap-south-1:jenkins-eks-lending-user') {
@@ -45,7 +65,7 @@ pipeline{
                        }
                     }
             }
-        }
+        }*/
         
        
         /*stage('build docker image'){

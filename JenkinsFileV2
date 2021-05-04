@@ -1,1 +1,66 @@
+pipeline{
 
+    environment {
+            registry = "340077773684.dkr.ecr.ap-south-1.amazonaws.com/paytm-lending"
+            registryCredential = 'jenkins-eks-lending-user'
+            dockerImage = ''
+        }
+
+     agent {
+        kubernetes {
+          inheritFrom 'helm'
+          defaultContainer 'jenkins-slave-ssr'
+        }
+      }
+    stages {
+        stage('Checkout code') {
+            steps {
+                checkout scm
+            }
+        }
+        stage('build'){
+            steps{
+            sh """
+                echo "building ${env.GIT_COMMIT}"
+                ./mvnw clean install -DskipTests
+               """
+            }
+        }
+        stage('test'){
+            steps{
+                sh '''
+                ./mvnw test
+               '''
+            }
+        }
+        
+       
+    stage('Building image') {
+      steps{
+        script {
+          dockerImage = docker.build registry + ":${env.GIT_COMMIT}"
+        }
+      }
+    }
+    stage('Deploy image') {
+        steps{
+            script{
+                docker.withRegistry("https://" + registry, "ecr:ap-south-1:" + registryCredential) {
+                    dockerImage.push()
+                }
+            }
+        }
+    }
+
+    stage('Deploy application to EKS'){
+            steps{
+                    sh """
+                       git clone https://github.com/surender-rawat/lending-app-chart.git
+                       cp values.yaml ./lending-app-chart/
+                       cp Chart.yaml  ./lending-app-chart/
+                       helm upgrade --install hello-world ./lending-app-chart --set image.tag=${env.GIT_COMMIT} -n staging
+                    """
+            }
+        }
+    }
+}

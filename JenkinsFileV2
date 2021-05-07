@@ -56,7 +56,6 @@ pipeline{
             steps{
                     sh """
                        git clone https://github.com/surender-rawat/lending-app-chart.git
-                       pwd
                        cp ./helm/values.yaml ./lending-app-chart/
                        cp ./helm/Chart.yaml  ./lending-app-chart/
                        helm upgrade --install hello-world ./lending-app-chart --set image.tag=${env.GIT_COMMIT} -n staging

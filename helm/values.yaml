@@ -43,11 +43,11 @@ service:
 ingress:
   enabled: true
   annotations: {
-    kubernetes.io/ingress.class: alb
-    alb.ingress.kubernetes.io/scheme: internal
-    alb.ingress.kubernetes.io/certificate-arn:  arn:aws:acm:ap-south-1:340077773684:certificate/a2e8fee2-2449-4637-aacf-ed021be7f270
-    alb.ingress.kubernetes.io/listen-ports: '[{"HTTPS":443}]'
-    alb.ingress.kubernetes.io/group.name: test/
+    kubernetes.io/ingress.class: alb,
+    alb.ingress.kubernetes.io/scheme: internal,
+    alb.ingress.kubernetes.io/certificate-arn:  arn:aws:acm:ap-south-1:340077773684:certificate/a2e8fee2-2449-4637-aacf-ed021be7f270 ,
+    alb.ingress.kubernetes.io/listen-ports: '[{"HTTPS":443}]' ,
+    alb.ingress.kubernetes.io/group.name: test
   }
   hosts:
     - host: lending-api.stage.lending.paytm.com

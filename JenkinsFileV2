@@ -14,29 +14,20 @@ pipeline{
       }
     stages {
     
-            stage("Gather Deployment Parameters") {
+            stage("Interactive_Input") {
             steps {
-                timeout(time: 30, unit: 'SECONDS') {
-                    script {
-                        // Show the select input modal
-                       def INPUT_PARAMS = input message: 'Please Provide Parameters', ok: 'Next',
-                                        parameters: [
-                                        choice(name: 'ENVIRONMENT', choices: ['dev','qa'].join('\n'), description: 'Please select the Environment'),
-                                        choice(name: 'IMAGE_TAG', choices: getDockerImages(), description: 'Available Docker Images')]
-                        env.ENVIRONMENT = INPUT_PARAMS.ENVIRONMENT
-                        env.IMAGE_TAG = INPUT_PARAMS.IMAGE_TAG
-                    }
+                script {
+                def userInput = input(
+                 id: 'userInput', message: 'Enter path of test reports:?', 
+                 parameters: [
+                 [$class: 'TextParameterDefinition', defaultValue: 'None', description: 'Path of config file', name: 'Config'],
+                 [$class: 'TextParameterDefinition', defaultValue: 'None', description: 'Test Info file', name: 'Test']
+                ])
+                echo ("IQA Sheet Path: "+userInput['Config'])
+                echo ("Test Info file path: "+userInput['Test'])
+
                 }
             }
-        }
-        stage("Use Deployment Parameters") {
-         steps {
-                script {
-                    echo "All parameters have been set as Environment Variables"
-                    echo "Selected Environment: ${env.ENVIRONMENT}"
-                    echo "Selected Tag: ${env.IMAGE_TAG}"
-                }
-         }
         }
 
         stage('Checkout code') {

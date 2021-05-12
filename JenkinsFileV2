@@ -14,17 +14,17 @@ pipeline{
       }
     stages {
     
-            stage("Interactive_Input") {
+            stage("deployment details") {
             steps {
                 script {
                 def userInput = input(
-                 id: 'userInput', message: 'Enter path of test reports:?', 
+                 id: 'userInput', message: 'Please enter the deployment details?', 
                  parameters: [
-                 [$class: 'TextParameterDefinition', defaultValue: 'None', description: 'Path of config file', name: 'Config'],
-                 [$class: 'TextParameterDefinition', defaultValue: 'None', description: 'Test Info file', name: 'Test']
+                 [$class: 'TextParameterDefinition', defaultValue: 'None', description: 'Enter deployment env details - staging or prod ', name: 'deploy_env'],
+                 [$class: 'TextParameterDefinition', defaultValue: 'None', description: 'Enter version for deployment if available else leave it blank', name: 'deploy_version']
                 ])
-                echo ("IQA Sheet Path: "+userInput['Config'])
-                echo ("Test Info file path: "+userInput['Test'])
+                echo ("Deployment Env: "+userInput['deploy_env'])
+                echo ("Version to deploy: "+userInput['deploy_version'])
 
                 }
             }

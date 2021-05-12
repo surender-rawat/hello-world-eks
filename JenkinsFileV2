@@ -20,8 +20,8 @@ pipeline{
                 def userInput = input(
                  id: 'userInput', message: 'Please enter the deployment details?', 
                  parameters: [
-                 [$class: 'TextParameterDefinition', defaultValue: 'None', description: 'Enter deployment env details - staging or prod ', name: 'deploy_env'],
-                 [$class: 'TextParameterDefinition', defaultValue: 'None', description: 'Enter version for deployment if available else leave it blank', name: 'deploy_version']
+                 [$class: 'TextParameterDefinition', defaultValue: 'staging', description: 'Enter deployment env details - staging or prod ', name: 'deploy_env'],
+                 [$class: 'TextParameterDefinition', defaultValue: '', description: 'Enter version for deployment if available else leave it blank', name: 'deploy_version']
                 ])
                 echo ("Deployment Env: "+userInput['deploy_env'])
                 echo ("Version to deploy: "+userInput['deploy_version'])
